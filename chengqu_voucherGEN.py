@@ -378,6 +378,7 @@ def genExcel_chengqu_yinhanghuazhang(excelspath_sheet28_of_dir, save_dir):
         a = df_data_2.columns.tolist()
         a.remove('项目')
         df_data_2 = df_data_2[a].T
+        # 以项目作index然后转置矩阵
         amount_df_2_all = df_data_2.loc[
             '实收金额', ['基本水费', '污水费', '垃圾费', '滞纳金']].values.tolist()
         amount_df_2_all = amount_df_2_all[0:3] + [
@@ -1083,10 +1084,10 @@ if __name__ == "__main__":
     #     type1='zhuyuan')
     # todo 可用于莲塘
 
-    # genExcel_chengqu_yinhanghuazhang(
-    #     excelspath_sheet28_of_dir=
-    #     r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\客服大厅\划帐情况汇总',
-    #     save_dir=r'.\pingzheng')
+    genExcel_chengqu_yinhanghuazhang(
+        excelspath_sheet28_of_dir=
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\客服大厅\划帐情况汇总',
+        save_dir=r'.\pingzheng')
     #
     # genExcel_banfu_zhifubao(
     #     excelpath_sheet20=
