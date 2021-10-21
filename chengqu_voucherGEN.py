@@ -6,6 +6,8 @@ import re
 
 # todo 最后循环生成单凭号
 # todo ['辅助账摘要']
+# todo ['记账日期']
+# todo ['分录号']
 
 # 获取当前月的上一个月的最后一天
 last_date = datetime.date(datetime.date.today().year,
