@@ -369,7 +369,7 @@ if __name__ == "__main__":
         r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\五桂山\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
         save_dir=r'.\pingzheng',
     )
-    # todo 数据为空待验证  genExcel_wuguishan_xianjin
+    # todo 数据为空 待验证  genExcel_wuguishan_xianjin
     genExcel_wuguishan_yinhanghuazhang(
         excelspath_sheet28_of_dir=
         r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\五桂山\划帐情况汇总',
