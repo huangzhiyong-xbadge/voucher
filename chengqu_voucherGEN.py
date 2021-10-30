@@ -1089,13 +1089,13 @@ if __name__ == "__main__":
     # todo 可用于莲塘
     genExcel_chengqu_shuaka(
         excelpath_sheet15=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\竹苑-刷卡\竹苑-刷卡.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\莲塘-刷卡\莲塘-刷卡.xlsx',
         excelpath_sheet2=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\莲塘\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
         excelpath_sheet18=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新\Robot_Files\刷卡汇总\2021-10-13\竹苑-刷卡\刷卡汇总.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新\Robot_Files\刷卡汇总\2021-10-13\莲塘-刷卡\刷卡汇总.xlsx',
         save_dir=r'.\pingzheng',
-        type1='zhuyuan')
+        type1='liantang')
 
     genExcel_chengqu_saoma(
         excelpath_sheet16=
@@ -1109,13 +1109,13 @@ if __name__ == "__main__":
     # todo 可用于莲塘
     genExcel_chengqu_saoma(
         excelpath_sheet16=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\竹苑-扫码\竹苑-扫码.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\莲塘-扫码\莲塘-扫码.xlsx',
         excelpath_sheet3=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\莲塘\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
         excelpath_sheet19=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新\Robot_Files\扫码汇总\2021-10-13\竹苑-扫码\扫码汇总.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新\Robot_Files\扫码汇总\2021-10-13\莲塘-扫码\扫码汇总.xlsx',
         save_dir=r'.\pingzheng',
-        type1='zhuyuan')
+        type1='liantang')
 
     genExcel_chengqu_xianjinshuifei(
         excelpath_sheet1=
@@ -1125,7 +1125,7 @@ if __name__ == "__main__":
     # todo 可用于莲塘
     genExcel_chengqu_xianjinshuifei(
         excelpath_sheet1=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\莲塘\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
         save_dir=r'.\pingzheng',
         type1='zhuyuan')
 
@@ -1178,6 +1178,6 @@ if __name__ == "__main__":
     # todo 可用于莲塘
     genExcel_chengqu_check(
         excelpath_sheet5=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\竹苑\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\莲塘\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
         save_dir=r'.\pingzheng',
         type1='zhuyuan')
