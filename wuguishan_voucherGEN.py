@@ -54,9 +54,122 @@ def constant_value(df):
     return df
 
 
-def genExcel_wuguishan_shuaka_saoma():
+def genExcel_wuguishan_shuaka_saoma(excelpath_sheet15, excelpath_sheet16, excelpath_sheet2, save_dir):
     pass
-    # todo 待确认：没有明细、合并。
+    # 五桂山刷卡、扫码--->五桂山    saoma取净金额
+    # save_dir 末端不加反斜杠
+    # excelpath_sheet15, excelpath_sheet16, excelpath_sheet2 和 excelpath_sheet3（取的sheet不同）:报表十五、报表十六、报表二（三）
+    # 把定值全表深拷贝一份最为初始
+    df_sum = df.copy(deep=True)
+
+    df_data_1 = pd.read_excel(excelpath_sheet15)  # 报表十五
+    df_data_2 = pd.read_excel(excelpath_sheet16)  # 报表十六
+    # df_data_1.iloc[:,0].name
+    # old_col = list(df_data_1.columns)
+    # old_col[0] = 'index'
+    # df_data_1.columns = old_col
+    # df_data_1 = df_data_1.loc[df_data_1['index'].isna()]
+    df_data_1_1 = df_data_1.loc[df_data_1[df_data_1.iloc[:, 1].name] != '合计']  # 日期
+    df_data_2_1 = df_data_2.loc[df_data_2[df_data_2.iloc[:, 1].name] != '合计']
+    # 筛选去掉“合计”行
+    # print(df_data_1_1)
+    df_1 = df.copy(deep=True)
+    df_1['原币金额'] = df_data_1_1['净计金额']
+    df_1['方向'] = '1'  # 借方
+    df_1['借方金额'] = df_data_1_1['净计金额']
+    df_1[['摘要', '科目', '科目名称', '核算项目1', '编码1', '名称1']] = [
+        '收各单位水费（信用卡、微信扫码）五桂山', '1002', '银行存款', '银行账户', '2.05.003',
+        "农行五桂山支行（44312801040004503）"
+    ]
+    df_sum = df_sum.append(df_1, ignore_index=True)
+
+    df_2 = df.copy(deep=True)
+    df_2['原币金额'] = df_data_2_1['净计金额']
+    df_2['方向'] = '1'  # 借方
+    df_2['借方金额'] = df_data_2_1['净计金额']
+    df_2[['摘要', '科目', '科目名称', '核算项目1', '编码1', '名称1']] = [
+        '收各单位水费（信用卡、微信扫码）五桂山', '1002', '银行存款', '银行账户', '2.05.003',
+        "农行五桂山支行（44312801040004503）"
+    ]
+
+    df_data_3 = pd.read_excel(excelpath_sheet2,
+                              sheet_name='营业厅收费汇总报表_刷卡')  # 报表二
+    # print(df_data_3)
+    df_3 = df.copy(deep=True)
+    amount_df_3_firstSubtrahend = [
+        round(abs(each), 2)
+        for each in df_data_1.loc[df_data_1[df_data_1.iloc[:, 1].name] == '合计',
+                                  '手续费'].tolist()
+    ]  # 报表十五“商户费用”（手续费）列合计
+    # 第一行被减数报表十五“商户费用”（手续费）列合计
+    amount_df_3_all = [
+        round(each, 2) for each in df_data_3.loc[
+            df_data_3['序号'] == '合计',
+            ['水费', '污水费', '垃圾处理费', '违约金', '税额', '预收款收支']].values.tolist()[0]
+    ]
+    df_3['原币金额'] = [amount_df_3_all[0] - amount_df_3_firstSubtrahend[0]
+                    ] + amount_df_3_all[1:]
+    df_3['方向'] = '0'  # 贷方
+    df_3['贷方金额'] = [amount_df_3_all[0] - amount_df_3_firstSubtrahend[0]
+                    ] + amount_df_3_all[1:]
+    df_3['摘要'] = [
+        '收各单位水费（信用卡）五桂山', '代收污水费（信用卡）', '代收垃圾费（信用卡）', '收水费违约金（信用卡）', '水费违约金销项税（信用卡）', '收到预收水费（信用卡）'
+    ]
+    df_3['科目'] = [
+        '1122.001', '2241.003.001', '2241.003.002', '6301.003', '2221.016.002',
+        '2203.004'
+    ]
+    df_3['科目名称'] = [
+        '应收账款_自来水', '其他应付款_外部单位往来款_污水费', '其他应付款_外部单位往来款_垃圾费', '营业外收入_违约金收入',
+        '应交税费_简易计税_简易计税3%', '预收账款_水费'
+    ]
+    df_3['核算项目1'] = ['', '供应商', '供应商', '行政组织', '', '']
+    df_3['编码1'] = [
+        '', 'G2.21.000326', 'G2.21.000319', '2.01.01.01.01.25', '', ''
+    ]
+    df_3['名称1'] = ['', '中山市建设局', '中山市环境卫生管理处', '南区营业厅', '', '']
+    df_sum = df_sum.append(df_3, ignore_index=True)
+
+    df_data_4 = pd.read_excel(excelpath_sheet2, sheet_name='营业厅收费汇总报表_扫码')  # 报表三
+    # print(df_data_4)
+    df_4 = df.copy(deep=True)
+    amount_df_4_firstSubtrahend = [
+        round(abs(each), 2) for each in df_data_2.loc[:, '手续费'].tolist()
+    ]  # 报表十六“商户费用”（手续费）列合计
+    # 第一行被减数报表十六“交易金额”（手续费）列，只有一行
+    amount_df_4_all = [
+        round(each, 2) for each in df_data_4.loc[
+            df_data_4['序号'] == '合计',
+            ['水费', '污水费', '垃圾处理费', '违约金', '税额', '预收款收支']].values.tolist()[0]
+    ]
+    df_4['原币金额'] = [amount_df_4_all[0] - amount_df_4_firstSubtrahend[0]
+                    ] + amount_df_4_all[1:]
+    df_4['方向'] = '0'  # 贷方
+    df_4['贷方金额'] = [amount_df_4_all[0] - amount_df_4_firstSubtrahend[0]
+                    ] + amount_df_4_all[1:]
+    df_4['摘要'] = [
+        '收各单位水费（微信、支付宝扫码）五桂山', '代收污水费（微信、支付宝扫码）', '代收垃圾费（微信、支付宝扫码）', '收水费违约金（微信、支付宝扫码）', '水费违约金销项税（微信、支付宝扫码）', '收到预收水费（微信、支付宝扫码）'
+    ]
+    df_4['科目'] = [
+        '1122.001', '2241.003.001', '2241.003.002', '6301.003', '2221.016.002',
+        '2203.004'
+    ]
+    df_4['科目名称'] = [
+        '应收账款_自来水', '其他应付款_外部单位往来款_污水费', '其他应付款_外部单位往来款_垃圾费', '营业外收入_违约金收入',
+        '应交税费_简易计税_简易计税3%', '预收账款_水费'
+    ]
+    df_4['核算项目1'] = ['', '供应商', '供应商', '行政组织', '', '']
+    df_4['编码1'] = [
+        '', 'G2.21.000326', 'G2.21.000319', '2.01.01.01.01.25', '', ''
+    ]
+    df_4['名称1'] = ['', '中山市建设局', '中山市环境卫生管理处', '南区营业厅', '', '']
+    df_sum = df_sum.append(df_4, ignore_index=True)
+
+    df_sum = constant_value(df_sum)
+    # df_sum['凭证号'] = ''
+    print(df_sum)
+    df_sum.to_excel(save_dir + "\\" + f'wuguishan_shuaka_saoma.xlsx', index=False)
+    return df_sum
 
 
 def genExcel_wuguishan_xianjin(excelpath_sheet1, save_dir):
@@ -162,10 +275,10 @@ def genExcel_wuguishan_yinhanghuazhang(excelspath_sheet28_of_dir, save_dir):
         df_data_2 = df_data_2[a].T
         # 以项目作index然后转置矩阵
         amount_df_2_all = df_data_2.loc[
-            '实收金额', ['基本水费', '污水费', '滞纳金']].values.tolist()
-        amount_df_2_all = amount_df_2_all[0:2] + df_data_2.loc['重复金额', ['总金额']].values.tolist() + [
-            amount_df_2_all[2] - amount_df_2_all[2] * 0.06
-        ] + [amount_df_2_all[2] * 0.06
+            '实收金额', ['基本水费', '污水费', '垃圾费', '滞纳金']].values.tolist()
+        amount_df_2_all = amount_df_2_all[0:3] + df_data_2.loc['重复金额', ['总金额']].values.tolist() + [
+            amount_df_2_all[3] - amount_df_2_all[3] * 0.03
+        ] + [amount_df_2_all[3] * 0.03
              ]
         amount_df_2_all = [round(each, 2) for each in amount_df_2_all]
         # print(amount_df_2_all)
@@ -174,22 +287,22 @@ def genExcel_wuguishan_yinhanghuazhang(excelspath_sheet28_of_dir, save_dir):
         df_2['方向'] = '0'  # 贷方
         df_2['贷方金额'] = amount_df_2_all
         df_2['摘要'] = [
-            '收到工商银行代收水费 五桂山', '代收污水费 五桂山', '收到预收水费 五桂山', '收水费违约金 五桂山',
+            '收到工商银行代收水费 五桂山', '代收污水费 五桂山', '代收垃圾费', '收到预收水费 五桂山', '收水费违约金 五桂山',
             '水费违约金销项税 五桂山'
         ]
         df_2['科目'] = [
-            '1122.001', '2241.003.001', '2203.004', '6301.003',
+            '1122.001', '2241.003.001', '2241.003.002', '2203.004', '6301.003',
             '2221.016.002'
         ]
         df_2['科目名称'] = [
-            '应收账款_自来水', '其他应付款_外部单位往来款_污水费', '预收账款_水费',
+            '应收账款_自来水', '其他应付款_外部单位往来款_污水费', '其他应付款_外部单位往来款_垃圾费', '预收账款_水费',
             '营业外收入_违约金收入', '应交税费_简易计税_简易计税3%'
         ]
-        df_2['核算项目1'] = ['', '供应商', '', '行政组织', '']
+        df_2['核算项目1'] = ['', '供应商', '供应商', '', '行政组织', '']
         df_2['编码1'] = [
-            '', 'G2.21.000326', '', '2.01.01.01.01.22.01', ''
+            '', 'G2.21.000326', 'G2.21.000319', '', '2.01.01.01.01.22.01', ''
         ]
-        df_2['名称1'] = ['', '中山市建设局', '', '城区分公司客服部', '']
+        df_2['名称1'] = ['', '中山市建设局', '中山市环境卫生管理处', '', '城区分公司客服部', '']
         df_sum = df_sum.append(df_2, ignore_index=True)
 
         df_sum = constant_value(df_sum)
@@ -235,38 +348,38 @@ def genExcel_wuguishan_check(excelpath_sheet5, save_dir):
         amount1_eachitem = [
             round(i, 2)
             for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
-                                            '金额'].tolist()
+                                            '实收金额'].tolist()
         ]
         amount2_eachitem = [
             round(i, 2)
             for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
-                                            '实收金额'].tolist()
+                                            '水费'].tolist()
         ]
         wushuifei_eachitem = [
             round(i, 2)
             for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
                                             '污水费'].tolist()
         ]
-        # lajichulifei_eachitem = [
-        #     round(i, 2)
-        #     for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
-        #                                     '垃圾处理费'].tolist()
-        # ]
+        lajichulifei_eachitem = [
+            round(i, 2)
+            for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
+                                            '垃圾处理费'].tolist()
+        ]
         yushoukuanshouzhi_eachitem = [
             round(i, 2)
             for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
                                             '预收款收支'].tolist()
         ]
-        # weiyuejin_eachitem = [[
-        #     round(i, 2)
-        #     for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
-        #                                     '滞纳金'].tolist()
-        # ][0] * (1 - 0.06)]
-        # shuie_eachitem = [[
-        #     round(i, 2)
-        #     for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
-        #                                     '滞纳金'].tolist()
-        # ][0] * 0.06]
+        weiyuejin_eachitem = [[
+            round(i * (1 - 0.03), 2)
+            for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
+                                            '滞纳金'].tolist()
+        ][0]]
+        shuie_eachitem = [[
+            round(i * 0.03, 2)
+            for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
+                                            '滞纳金'].tolist()
+        ][0]]
         if amount1_eachitem[0] < 0:  # 合计金额小于零，跳过，不需要记账。
             continue
         else:
@@ -311,45 +424,45 @@ def genExcel_wuguishan_check(excelpath_sheet5, save_dir):
             df_sum = df_sum.append(df_3, ignore_index=True)
 
             # 代收垃圾费
-            # df_4 = df.copy(deep=True)
-            # df_4['原币金额'] = lajichulifei_eachitem
-            # df_4['方向'] = '0'  # 贷方
-            # df_4['贷方金额'] = lajichulifei_eachitem
-            # df_4[['摘要', '科目', '科目名称', '核算项目1', '编码1', '名称1']] = [
-            #     '代收垃圾费 南区', '2241.003.002', '其他应付款_外部单位往来款_垃圾费', '供应商',
-            #     'G2.21.000319', "中山市环境卫生管理处"
-            # ]
-            # df_sum = df_sum.append(df_4, ignore_index=True)
+            df_4 = df.copy(deep=True)
+            df_4['原币金额'] = lajichulifei_eachitem
+            df_4['方向'] = '0'  # 贷方
+            df_4['贷方金额'] = lajichulifei_eachitem
+            df_4[['摘要', '科目', '科目名称', '核算项目1', '编码1', '名称1']] = [
+                '代收垃圾费 南区', '2241.003.002', '其他应付款_外部单位往来款_垃圾费', '供应商',
+                'G2.21.000319', "中山市环境卫生管理处"
+            ]
+            df_sum = df_sum.append(df_4, ignore_index=True)
 
             # 收水费违约金
-            # df_6 = df.copy(deep=True)
-            # df_6['原币金额'] = weiyuejin_eachitem
-            # df_6['方向'] = '0'  # 贷方
-            # df_6['贷方金额'] = weiyuejin_eachitem
-            # df_6[['摘要', '科目', '科目名称', '核算项目1', '编码1', '名称1']] = [
-            #     '收水费违约金 （南区）', '6301.003', '营业外收入_违约金收入', '行政组织',
-            #     '2.01.01.01.01.25', "南区营业厅"
-            # ]
-            # df_sum = df_sum.append(df_6, ignore_index=True)
+            df_5 = df.copy(deep=True)
+            df_5['原币金额'] = weiyuejin_eachitem
+            df_5['方向'] = '0'  # 贷方
+            df_5['贷方金额'] = weiyuejin_eachitem
+            df_5[['摘要', '科目', '科目名称', '核算项目1', '编码1', '名称1']] = [
+                '收水费违约金 （南区）', '6301.003', '营业外收入_违约金收入', '行政组织',
+                '2.01.01.01.01.25', "南区营业厅"
+            ]
+            df_sum = df_sum.append(df_5, ignore_index=True)
 
             # 水费违约金销项税
-            # df_7 = df.copy(deep=True)
-            # df_7['原币金额'] = shuie_eachitem
-            # df_7['方向'] = '0'  # 贷方
-            # df_7['贷方金额'] = shuie_eachitem
-            # df_7[['摘要', '科目', '科目名称', '核算项目1', '编码1', '名称1']] = [
-            #     '水费违约金销项税 （南区）', '2221.016.002', '应交税费_简易计税_简易计税3%', '', '', ""
-            # ]
-            # df_sum = df_sum.append(df_7, ignore_index=True)
+            df_6 = df.copy(deep=True)
+            df_6['原币金额'] = shuie_eachitem
+            df_6['方向'] = '0'  # 贷方
+            df_6['贷方金额'] = shuie_eachitem
+            df_6[['摘要', '科目', '科目名称', '核算项目1', '编码1', '名称1']] = [
+                '水费违约金销项税 （南区）', '2221.016.002', '应交税费_简易计税_简易计税3%', '', '', ""
+            ]
+            df_sum = df_sum.append(df_6, ignore_index=True)
 
             # 收到预收水费
-            df_5 = df.copy(deep=True)
-            df_5['原币金额'] = yushoukuanshouzhi_eachitem
-            df_5['方向'] = '0'  # 贷方
-            df_5['贷方金额'] = yushoukuanshouzhi_eachitem
-            df_5[['摘要', '科目', '科目名称', '核算项目1', '编码1',
+            df_7 = df.copy(deep=True)
+            df_7['原币金额'] = yushoukuanshouzhi_eachitem
+            df_7['方向'] = '0'  # 贷方
+            df_7['贷方金额'] = yushoukuanshouzhi_eachitem
+            df_7[['摘要', '科目', '科目名称', '核算项目1', '编码1',
                   '名称1']] = ['收到预收水费 五桂山', '2203.004', '预收账款_水费', '', '', ""]
-            df_sum = df_sum.append(df_5, ignore_index=True)
+            df_sum = df_sum.append(df_7, ignore_index=True)
 
             df_sum = constant_value(df_sum)
             # df_sum['凭证号'] = '00012'
@@ -360,21 +473,27 @@ def genExcel_wuguishan_check(excelpath_sheet5, save_dir):
     # return df_sum
 
 
-
-
 if __name__ == "__main__":
-    pass
+    genExcel_wuguishan_shuaka_saoma(
+        excelpath_sheet15=
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\五桂山-刷卡\五桂山-刷卡.xlsx',
+        excelpath_sheet16=
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\五桂山-扫码\五桂山-扫码.xlsx',
+        excelpath_sheet2=
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\五桂山\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        save_dir=r'.\pingzheng',
+    )
     genExcel_wuguishan_xianjin(
         excelpath_sheet1=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\五桂山\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\五桂山\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
         save_dir=r'.\pingzheng',
     )
     # todo 数据为空 待验证  genExcel_wuguishan_xianjin
     genExcel_wuguishan_yinhanghuazhang(
         excelspath_sheet28_of_dir=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\五桂山\划帐情况汇总',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\五桂山\划帐情况汇总',
         save_dir=r'.\pingzheng')
     genExcel_wuguishan_check(
         excelpath_sheet5=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\五桂山\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\五桂山\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
         save_dir=r'.\pingzheng')

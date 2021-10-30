@@ -54,7 +54,7 @@ def constant_value(df):
     return df
 
 
-def genExcel_gangkou_shuaka(excelpath_sheet15, excelpath_sheet2, save_dir):
+def genExcel_gangkou_shuaka(excelpath_sheet15, excelpath_sheet2, excelpath_sheet18, save_dir):
     # 港口刷卡--->港口
     # excelpath_sheet15, excelpath_sheet2, excelpath_sheet18:报表十五、报表二、报表十八
     # save_dir 末端不加反斜杠
@@ -119,6 +119,56 @@ def genExcel_gangkou_shuaka(excelpath_sheet15, excelpath_sheet2, save_dir):
     df_2['名称1'] = ['', '港口财政局', '港口财政局', '港口营业厅', '', '']
     df_sum = df_sum.append(df_2, ignore_index=True)
 
+    df_data_3 = pd.read_excel(excelpath_sheet18, header=2)  # 报表十八
+    df_data_3.fillna(0, inplace=True)
+    amount_df_3_col = [
+        '税前费用', '销项税(%6)', '税前费用', '销项税(%6)', '税前费用', '销项税(%6)', '交易金额',
+        '交易金额', '交易金额'
+    ]
+    amount_df_3_row = [
+        '检定费', '检定费', '水质检测费', '水质检测费', '查漏费', '查漏费', '维修费', '工程费', '换表费'
+    ]  # 收费项目
+    amount_df_3_all = []
+    for index in range(len(amount_df_3_col)):
+        # print(df_data_3.loc[df_data_3['收费项目'] == amount_df_3_row[index], amount_df_3_col[index]].tolist())
+        # print([round(each, 2) for each in df_data_3.loc[df_data_3['收费项目'] ==
+        # amount_df_3_row[index], amount_df_3_col[index]].tolist()])
+
+        # amount_df_3_all.extend([
+        #     round(each, 2) for each in
+        #     df_data_3.loc[df_data_3['收费项目'].str.endswith(amount_df_3_row[index]),
+        #                        amount_df_3_col[index]].tolist()])
+        # old
+        # print('bazinga')
+        # print('bazinga\n',df_data_3.loc[df_data_3['收费项目'].str.endswith(amount_df_3_row[index]),
+        #                   amount_df_3_col[index]])
+        amount_df_3_all.extend([
+            round(each, 2) for each in
+            [sum(df_data_3.loc[df_data_3['收费项目'].str.endswith(amount_df_3_row[index]),
+                               amount_df_3_col[index]])]
+        ])  # 使用 endswith 用于合并 检定费 和 外来表检定费
+    # print(amount_df_3_all)
+    df_3 = df.copy(deep=True)
+    df_3['原币金额'] = amount_df_3_all
+    df_3['方向'] = '0'  # 贷方
+    df_3['贷方金额'] = amount_df_3_all
+    df_3['摘要'] = [
+        '收到检定费 6%', '收到检定费 6% 销项税', '收到水质检测费 6%', '收到水质检测费 6% 销项税', '收到查漏费 6%',
+        '收到查漏费 6% 销项税', '收到维修费', '收到工程费', '收到换表费'
+    ]
+    df_3['科目'] = [
+        '6051.005', '2221.001.002.004', '6051.001.001', '2221.001.002.004',
+        '6051.007', '2221.001.002.004', '6051.001.002', '6051.001.002', ''
+    ]
+    df_3['科目名称'] = [
+        '其他业务收入_水表检定收入', '应交税费_应交增值税_销项税额_销项税额6%', '其他业务收入_外接业务收入_水质检测收入',
+        '应交税费_应交增值税_销项税额_销项税额6%', '其他业务收入_其他收入', '应交税费_应交增值税_销项税额_销项税额6%',
+        '其他业务收入_外接业务收入_给水安装工程收入', '其他业务收入_外接业务收入_给水安装工程收入', ''
+    ]
+    df_3['核算项目1'] = ['', '', '', '', '', '', '工程项目', '工程项目', '']
+    df_3['编码1'] = ['', '', '', '', '', '', '2.1.00003', '2.1.00003', '']
+    df_sum = df_sum.append(df_3, ignore_index=True)
+
     df_sum = constant_value(df_sum)
     # df_sum['凭证号']
     print(df_sum)
@@ -126,7 +176,7 @@ def genExcel_gangkou_shuaka(excelpath_sheet15, excelpath_sheet2, save_dir):
     return df_sum
 
 
-def genExcel_gangkou_saoma(excelpath_sheet16, excelpath_sheet3, save_dir):
+def genExcel_gangkou_saoma(excelpath_sheet16, excelpath_sheet3, excelpath_sheet19, save_dir):
     # 港口扫码--->港口
     # save_dir 末端不加反斜杠
     # excelpath_sheet16, excelpath_sheet3, excelpath_sheet19:报表十六、报表三、报表十九
@@ -138,9 +188,9 @@ def genExcel_gangkou_saoma(excelpath_sheet16, excelpath_sheet3, save_dir):
     # 筛选去掉“合计”行
     # print(df_data_1_1)
     df_1 = df.copy(deep=True)
-    df_1['原币金额'] = df_data_1['交易金额']
+    df_1['原币金额'] = df_data_1['净金额']
     df_1['方向'] = '1'  # 借方
-    df_1['借方金额'] = df_data_1['交易金额']
+    df_1['借方金额'] = df_data_1['净金额']
     df_1[['摘要', '科目', '科目名称', '核算项目1', '编码1', '名称1']] = [
         '收各单位水费（扫码支付）（港口）', '1002', '银行存款', '银行账户', '2.03.001',
         "建行松苑办'44001780308051308979"
@@ -182,6 +232,56 @@ def genExcel_gangkou_saoma(excelpath_sheet16, excelpath_sheet3, save_dir):
     ]
     df_2['名称1'] = ['', '港口财政局', '港口财政局', '', '港口营业厅', '']
     df_sum = df_sum.append(df_2, ignore_index=True)
+
+    df_data_3 = pd.read_excel(excelpath_sheet19, header=2)  # 报表十九
+    df_data_3.fillna(0, inplace=True)
+    amount_df_3_col = [
+        '税前费用', '销项税(%6)', '税前费用', '销项税(%6)', '税前费用', '销项税(%6)', '交易金额',
+        '交易金额', '交易金额'
+    ]
+    amount_df_3_row = [
+        '检定费', '检定费', '水质检测费', '水质检测费', '查漏费', '查漏费', '维修费', '工程费', '换表费'
+    ]  # 收费项目
+    amount_df_3_all = []
+    for index in range(len(amount_df_3_col)):
+        # print(df_data_3.loc[df_data_3['收费项目'] == amount_df_3_row[index], amount_df_3_col[index]].tolist())
+        # print([round(each, 2) for each in df_data_3.loc[df_data_3['收费项目'] ==
+        # amount_df_3_row[index], amount_df_3_col[index]].tolist()])
+
+        # amount_df_3_all.extend([
+        #     round(each, 2) for each in
+        #     df_data_3.loc[df_data_3['收费项目'].str.endswith(amount_df_3_row[index]),
+        #                        amount_df_3_col[index]].tolist()])
+        # old
+        # print('bazinga')
+        # print('bazinga\n',df_data_3.loc[df_data_3['收费项目'].str.endswith(amount_df_3_row[index]),
+        #                   amount_df_3_col[index]])
+        amount_df_3_all.extend([
+            round(each, 2) for each in
+            [sum(df_data_3.loc[df_data_3['收费项目'].str.endswith(amount_df_3_row[index]),
+                               amount_df_3_col[index]])]
+        ])  # 使用 endswith 用于合并 检定费 和 外来表检定费
+    # print(amount_df_3_all)
+    df_3 = df.copy(deep=True)
+    df_3['原币金额'] = amount_df_3_all
+    df_3['方向'] = '0'  # 贷方
+    df_3['贷方金额'] = amount_df_3_all
+    df_3['摘要'] = [
+        '收到检定费 6%', '收到检定费 6% 销项税', '收到水质检测费 6%', '收到水质检测费 6% 销项税', '收到查漏费 6%',
+        '收到查漏费 6% 销项税', '收到维修费', '收到工程费', '收到换表费'
+    ]
+    df_3['科目'] = [
+        '6051.005', '2221.001.002.004', '6051.001.001', '2221.001.002.004',
+        '6051.007', '2221.001.002.004', '6051.001.002', '6051.001.002', ''
+    ]
+    df_3['科目名称'] = [
+        '其他业务收入_水表检定收入', '应交税费_应交增值税_销项税额_销项税额6%', '其他业务收入_外接业务收入_水质检测收入',
+        '应交税费_应交增值税_销项税额_销项税额6%', '其他业务收入_其他收入', '应交税费_应交增值税_销项税额_销项税额6%',
+        '其他业务收入_外接业务收入_给水安装工程收入', '其他业务收入_外接业务收入_给水安装工程收入', ''
+    ]
+    df_3['核算项目1'] = ['', '', '', '', '', '', '工程项目', '工程项目', '']
+    df_3['编码1'] = ['', '', '', '', '', '', '2.1.00003', '2.1.00003', '']
+    df_sum = df_sum.append(df_3, ignore_index=True)
 
     df_sum = constant_value(df_sum)
     # df_sum['凭证号'] = '00002'
@@ -289,16 +389,27 @@ def genExcel_gangkou_yinhanghuazhang(excelspath_sheet28_of_dir, save_dir):
 
         df_data_2 = df_data_1.copy(deep=True)
         df_data_2.index = df_data_2['项目']
-        a = df_data_2.columns.tolist()
-        a.remove('项目')
-        df_data_2 = df_data_2[a].T
+        colnameList = df_data_2.columns.tolist()
+        colnameList.remove('项目')
+        df_data_2 = df_data_2[colnameList].T
+        # print(df_data_2.columns.tolist())
         # 以项目作index然后转置矩阵
         amount_df_2_all = df_data_2.loc[
-            '实收金额', ['基本水费', '污水费', '垃圾费', '滞纳金']].values.tolist()
+            '实收金额', ['其中水费', '其中污水费', '其中垃圾费', '滞纳金']].values.tolist()
+        # print(amount_df_2_all)
+        sliceCount = int(len(amount_df_2_all)/4)
+        amount_df_2_all = [amount_df_2_all[(i-1)*4:i*4] for i in range(1,sliceCount+1)]
+        a = b = c = d = 0
+        for i in amount_df_2_all:
+            a += i[0]
+            b += i[1]
+            c += i[2]
+            c += i[3]
+        amount_df_2_all = [a, b, c, d]
         amount_df_2_all = amount_df_2_all[0:3] + [
-            amount_df_2_all[3] - amount_df_2_all[3] * 0.06
-        ] + [amount_df_2_all[3] * 0.06
-             ] + df_data_2.loc['重复金额', ['总金额']].values.tolist()
+            amount_df_2_all[3] - amount_df_2_all[3] * 0.03
+        ] + [amount_df_2_all[3] * 0.03
+             ]  # + df_data_2.loc['重复金额', ['总金额']].values.tolist()      没有预收费列
         amount_df_2_all = [round(each, 2) for each in amount_df_2_all]
         # print(amount_df_2_all)
         df_2 = df.copy(deep=True)
@@ -307,21 +418,21 @@ def genExcel_gangkou_yinhanghuazhang(excelspath_sheet28_of_dir, save_dir):
         df_2['贷方金额'] = amount_df_2_all
         df_2['摘要'] = [
             '收到农商行代收水费（港口）', '代收污水费（港口）', '代收垃圾费（港口）', '代收违约金（港口）',
-            '代收违约金销项税（港口）', '收水费预收款 港口'
-        ]
+            '代收违约金销项税（港口）'
+        ]  # , '收水费预收款 港口'
         df_2['科目'] = [
             '1122.001', '2241.003.001', '2241.003.002', '6301.003',
-            '2221.016.002', '2203.004'
-        ]
+            '2221.016.002'
+        ]  # , '2203.004'
         df_2['科目名称'] = [
             '应收账款_自来水', '其他应付款_外部单位往来款_污水费', '其他应付款_外部单位往来款_垃圾费',
-            '营业外收入_违约金收入', '应交税费_简易计税_简易计税3%', '预收账款_水费'
-        ]
-        df_2['核算项目1'] = ['', '供应商', '供应商', '行政组织', '', '']
+            '营业外收入_违约金收入', '应交税费_简易计税_简易计税3%'
+        ]  # , '预收账款_水费'
+        df_2['核算项目1'] = ['', '供应商', '供应商', '行政组织', '']  # , ''
         df_2['编码1'] = [
-            '', 'G2.21.000955', 'G2.21.000955', '2.01.01.01.01.27', '', ''
-        ]
-        df_2['名称1'] = ['', '港口财政局', '港口财政局', '港口营业厅', '', '']
+            '', 'G2.21.000955', 'G2.21.000955', '2.01.01.01.01.27', ''
+        ]  # , ''
+        df_2['名称1'] = ['', '港口财政局', '港口财政局', '港口营业厅', '']  # , ''
         df_sum = df_sum.append(df_2, ignore_index=True)
 
         df_sum = constant_value(df_sum)
@@ -371,14 +482,14 @@ def genExcel_gangkou_zhifubao(excelpath_sheet20, save_dir):
             each
             for each in df_data_1.loc[df_data_1['区域'] == '港口', '垃圾费'].tolist()
         ]), 2)  # sum_垃圾费
-    sum_amount_df_5_all = round((1 - 0.06) * sum([
+    sum_amount_df_5_all = round((1 - 0.03) * sum([
         each
         for each in df_data_1.loc[df_data_1['区域'] == '港口', '违约金'].tolist()
-    ]), 2)  # sum_违约金(1-0.06)
-    sum_amount_df_6_all = round(0.06 * sum([
+    ]), 2)  # sum_违约金(1-0.03)
+    sum_amount_df_6_all = round(0.03 * sum([
         each
         for each in df_data_1.loc[df_data_1['区域'] == '港口', '违约金'].tolist()
-    ]), 2)  # sum_违约金(0.06)
+    ]), 2)  # sum_违约金(0.03)
     sum_amount_df_7_all = round(
         sum([
             each for each in df_data_1.loc[df_data_1['区域'] == '港口',
@@ -455,12 +566,12 @@ def genExcel_gangkou_check(excelpath_sheet5, save_dir):
         amount1_eachitem = [
             round(i, 2)
             for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
-                                            '金额'].tolist()
+                                            '实收金额'].tolist()
         ]
         amount2_eachitem = [
             round(i, 2)
             for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
-                                            '实收金额'].tolist()
+                                            '水费'].tolist()
         ]
         wushuifei_eachitem = [
             round(i, 2)
@@ -478,15 +589,15 @@ def genExcel_gangkou_check(excelpath_sheet5, save_dir):
                                             '预收款收支'].tolist()
         ]
         weiyuejin_eachitem = [[
-            round(i, 2)
+            round(i * (1 - 0.03), 2)
             for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
                                             '滞纳金'].tolist()
-        ][0] * (1 - 0.06)]
+        ][0]]
         shuie_eachitem = [[
-            round(i, 2)
+            round(i * 0.03, 2)
             for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
                                             '滞纳金'].tolist()
-        ][0] * 0.06]
+        ][0]]
         if amount1_eachitem[0] < 0:  # 合计金额小于零，跳过，不需要记账。
             continue
         else:
@@ -581,36 +692,38 @@ def genExcel_gangkou_check(excelpath_sheet5, save_dir):
 
 
 if __name__ == "__main__":
-    pass
     genExcel_gangkou_shuaka(
         excelpath_sheet15=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口\新建文件夹\港口-刷卡\港口-刷卡.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口-新\新建文件夹\港口-刷卡\港口-刷卡.xlsx',
         excelpath_sheet2=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\港口\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        excelpath_sheet18=
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口-新\港口-刷卡\刷卡汇总.xlsx',
         save_dir=r'.\pingzheng',
     )
     genExcel_gangkou_saoma(
         excelpath_sheet16=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口\新建文件夹\港口-扫码\港口-扫码.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口-新\新建文件夹\港口-扫码\港口-扫码.xlsx',
         excelpath_sheet3=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\港口\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        excelpath_sheet19=
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口-新\港口-扫码\扫码汇总.xlsx',
         save_dir=r'.\pingzheng',
     )
     genExcel_gangkou_xianjin(
         excelpath_sheet1=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\港口\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
         save_dir=r'.\pingzheng',
     )
-    # genExcel_gangkou_yinhanghuazhang(
-    #     excelspath_sheet28_of_dir=
-    #     r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口\划帐情况汇总',
-    #     save_dir=r'.\pingzheng')
-    # todo 待确认
+    genExcel_gangkou_yinhanghuazhang(
+        excelspath_sheet28_of_dir=
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口-新\划帐情况汇总',
+        save_dir=r'.\pingzheng')
     genExcel_gangkou_zhifubao(
         excelpath_sheet20=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
         save_dir=r'.\pingzheng')
     genExcel_gangkou_check(
         excelpath_sheet5=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\港口\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
         save_dir=r'.\pingzheng',)

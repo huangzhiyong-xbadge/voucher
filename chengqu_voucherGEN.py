@@ -134,11 +134,25 @@ def genExcel_chengqu_shuaka(excelpath_sheet15, excelpath_sheet2,
         # print(df_data_3.loc[df_data_3['收费项目'] == amount_df_3_row[index], amount_df_3_col[index]].tolist())
         # print([round(each, 2) for each in df_data_3.loc[df_data_3['收费项目'] ==
         # amount_df_3_row[index], amount_df_3_col[index]].tolist()])
+
+        # amount_df_3_all.extend([
+        #     round(each, 2) for each in
+        #     df_data_3.loc[df_data_3['收费项目'].str.endswith(amount_df_3_row[index]),
+        #                        amount_df_3_col[index]].tolist()])
+        # old
+        # print('bazinga')
+        # print('bazinga\n',df_data_3.loc[df_data_3['收费项目'].str.endswith(amount_df_3_row[index]),
+        #                   amount_df_3_col[index]])
+        # print(df_data_3.loc[df_data_3['收费项目'].str.endswith(amount_df_3_row[index])])
+        # print(df_data_3.loc[df_data_3['收费项目'].str.endswith(amount_df_3_row[index]),
+        #                   amount_df_3_col[index]])
+        # print(sum(df_data_3.loc[df_data_3['收费项目'].str.endswith(amount_df_3_row[index]),
+        #                   amount_df_3_col[index]]))
         amount_df_3_all.extend([
             round(each, 2) for each in
-            df_data_3.loc[df_data_3['收费项目'] == amount_df_3_row[index],
-                          amount_df_3_col[index]].tolist()
-        ])
+            [sum(df_data_3.loc[df_data_3['收费项目'].str.endswith(amount_df_3_row[index]),
+                          amount_df_3_col[index]])]
+        ])  # 使用 endswith 用于合并 检定费 和 外来表检定费
     # print(amount_df_3_all)
     df_3 = df.copy(deep=True)
     df_3['原币金额'] = amount_df_3_all
@@ -182,9 +196,9 @@ def genExcel_chengqu_saoma(excelpath_sheet16, excelpath_sheet3,
     # 筛选去掉“合计”行
     # print(df_data_1_1)
     df_1 = df.copy(deep=True)
-    df_1['原币金额'] = df_data_1['交易金额']
+    df_1['原币金额'] = df_data_1['净金额']
     df_1['方向'] = '1'  # 借方
-    df_1['借方金额'] = df_data_1['交易金额']
+    df_1['借方金额'] = df_data_1['净金额']
     df_1[['摘要', '科目', '科目名称', '核算项目1', '编码1', '名称1']] = [
         '收各单位水费（微信、支付宝扫码）', '1002', '银行存款', '银行账户', '2.03.001',
         "建行松苑办'44001780308051308979"
@@ -192,7 +206,7 @@ def genExcel_chengqu_saoma(excelpath_sheet16, excelpath_sheet3,
     df_sum = df_sum.append(df_1, ignore_index=True)
 
     df_data_2 = pd.read_excel(excelpath_sheet3, sheet_name='营业厅收费汇总报表_扫码')
-    print(df_data_2)
+    # print(df_data_2)
     df_2 = df.copy(deep=True)
     amount_df_2_firstSubtrahend = [
         round(abs(each), 2) for each in df_data_1.loc[:, '手续费'].tolist()
@@ -209,7 +223,7 @@ def genExcel_chengqu_saoma(excelpath_sheet16, excelpath_sheet3,
     df_2['贷方金额'] = [amount_df_2_all[0] - amount_df_2_firstSubtrahend[0]
                     ] + amount_df_2_all[1:]
     df_2['摘要'] = [
-        '收各单位水费（信用卡）', '代收污水费', '代收垃圾费', '收水费违约金', '水费违约金销项税', '收到预收水费'
+        '收各单位水费（微信、支付宝扫码）', '代收污水费', '代收垃圾费', '收水费违约金', '水费违约金销项税', '收到预收水费'
     ]
     df_2['科目'] = [
         '1122.001', '2241.003.001', '2241.003.002', '6301.003', '2221.016.002',
@@ -240,11 +254,20 @@ def genExcel_chengqu_saoma(excelpath_sheet16, excelpath_sheet3,
         # print(df_data_3.loc[df_data_3['收费项目'] == amount_df_3_row[index], amount_df_3_col[index]].tolist())
         # print([round(each, 2) for each in df_data_3.loc[df_data_3['收费项目'] ==
         # amount_df_3_row[index], amount_df_3_col[index]].tolist()])
+
+        # amount_df_3_all.extend([
+        #     round(each, 2) for each in
+        #     df_data_3.loc[df_data_3['收费项目'].str.endswith(amount_df_3_row[index]),
+        #                        amount_df_3_col[index]].tolist()])
+        # old
+        # print('bazinga')
+        # print('bazinga\n',df_data_3.loc[df_data_3['收费项目'].str.endswith(amount_df_3_row[index]),
+        #                   amount_df_3_col[index]])
         amount_df_3_all.extend([
             round(each, 2) for each in
-            df_data_3.loc[df_data_3['收费项目'] == amount_df_3_row[index],
-                          amount_df_3_col[index]].tolist()
-        ])
+            [sum(df_data_3.loc[df_data_3['收费项目'].str.endswith(amount_df_3_row[index]),
+                               amount_df_3_col[index]])]
+        ])  # 使用 endswith 用于合并 检定费 和 外来表检定费
     # print(amount_df_3_all)
     df_3 = df.copy(deep=True)
     df_3['原币金额'] = amount_df_3_all
@@ -384,8 +407,8 @@ def genExcel_chengqu_yinhanghuazhang(excelspath_sheet28_of_dir, save_dir):
         amount_df_2_all = df_data_2.loc[
             '实收金额', ['基本水费', '污水费', '垃圾费', '滞纳金']].values.tolist()
         amount_df_2_all = amount_df_2_all[0:3] + [
-            amount_df_2_all[3] - amount_df_2_all[3] * 0.06
-        ] + [amount_df_2_all[3] * 0.06
+            amount_df_2_all[3] - amount_df_2_all[3] * 0.03
+        ] + [amount_df_2_all[3] * 0.03
              ] + df_data_2.loc['重复金额', ['总金额']].values.tolist()
         amount_df_2_all = [round(each, 2) for each in amount_df_2_all]
         # print(amount_df_2_all)
@@ -580,7 +603,7 @@ def genExcel_guzhen_zhifubao(excelpath_sheet20, save_dir):
 
 
 def genExcel_hannanqu_zhifubao(excelpath_sheet20, save_dir):
-    # 支付宝-含南区--->城区
+    # 支付宝-含南区--->城区'城区/南区/五桂山/沙溪'
     # excelpath_sheet20:报表二十
     # save_dir 末端不加反斜杠
     # 把定值全表深拷贝一份最为初始
@@ -589,9 +612,7 @@ def genExcel_hannanqu_zhifubao(excelpath_sheet20, save_dir):
     df_data_1 = pd.read_excel(excelpath_sheet20)  # 报表二十
     df_1 = df.copy(deep=True)
     amount_df_1_all = [
-        round(each, 2) for each in df_data_1.loc[(df_data_1['区域'] == '南区')
-                                                 | (df_data_1['区域'] == '城区')
-                                                 | (df_data_1['区域'] == '五桂山'),
+        round(each, 2) for each in df_data_1.loc[(df_data_1['区域'] == '城区/南区/五桂山/沙溪'),
                                                  '到账总金额'].tolist()
     ]
     df_1['原币金额'] = amount_df_1_all
@@ -629,8 +650,8 @@ def genExcel_hannanqu_zhifubao(excelpath_sheet20, save_dir):
     sum_amount_chengqu_2_all = round(sum(amount_df_chengqu_2_all), 2)
     sum_amount_chengqu_3_all = round(sum(amount_df_chengqu_3_all), 2)
     sum_amount_chengqu_4_all = round(sum(amount_df_chengqu_4_all), 2) - round(
-        sum(amount_df_chengqu_4_all), 2) * 0.06
-    sum_amount_chengqu_5_all = round(sum(amount_df_chengqu_4_all), 2) * 0.06
+        sum(amount_df_chengqu_4_all) * 0.03, 2)
+    sum_amount_chengqu_5_all = round(sum(amount_df_chengqu_4_all) * 0.03, 2)
     sum_amount_chengqu_6_all = round(sum(amount_df_chengqu_6_all), 2)
     sum_amount_chengqu_all = [
         sum_amount_chengqu_1_all, sum_amount_chengqu_2_all,
@@ -698,9 +719,8 @@ def genExcel_hannanqu_zhifubao(excelpath_sheet20, save_dir):
     sum_amount_wuguishan_3_all = round(sum(amount_df_wuguishan_3_all), 2)
     sum_amount_wuguishan_4_all = round(
         sum(amount_df_wuguishan_4_all),
-        2) - round(sum(amount_df_wuguishan_4_all), 2) * 0.06
-    sum_amount_wuguishan_5_all = round(sum(amount_df_wuguishan_4_all),
-                                       2) * 0.06
+        2) - round(sum(amount_df_wuguishan_4_all) * 0.03, 2)
+    sum_amount_wuguishan_5_all = round(sum(amount_df_wuguishan_4_all) * 0.03, 2)
     sum_amount_wuguishan_6_all = round(sum(amount_df_wuguishan_6_all), 2)
     sum_amount_wuguishan_all = [
         sum_amount_wuguishan_1_all, sum_amount_wuguishan_2_all,
@@ -767,8 +787,8 @@ def genExcel_hannanqu_zhifubao(excelpath_sheet20, save_dir):
     sum_amount_nanqu_2_all = round(sum(amount_df_nanqu_2_all), 2)
     sum_amount_nanqu_3_all = round(sum(amount_df_nanqu_3_all), 2)
     sum_amount_nanqu_4_all = round(sum(amount_df_nanqu_4_all), 2) - round(
-        sum(amount_df_nanqu_4_all), 2) * 0.06
-    sum_amount_nanqu_5_all = round(sum(amount_df_nanqu_4_all), 2) * 0.06
+        sum(amount_df_nanqu_4_all) * 0.03, 2)
+    sum_amount_nanqu_5_all = round(sum(amount_df_nanqu_4_all) * 0.03, 2)
     sum_amount_nanqu_6_all = round(sum(amount_df_nanqu_6_all), 2)
     sum_amount_nanqu_all = [
         sum_amount_nanqu_1_all, sum_amount_nanqu_2_all, sum_amount_nanqu_3_all,
@@ -930,12 +950,12 @@ def genExcel_chengqu_check(excelpath_sheet5, save_dir, type1):
         amount1_eachitem = [
             round(i, 2)
             for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
-                                            '金额'].tolist()
+                                            '实收金额'].tolist()
         ]
         amount2_eachitem = [
             round(i, 2)
             for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
-                                            '实收金额'].tolist()
+                                            '水费'].tolist()
         ]
         wushuifei_eachitem = [
             round(i, 2)
@@ -953,15 +973,15 @@ def genExcel_chengqu_check(excelpath_sheet5, save_dir, type1):
                                             '预收款收支'].tolist()
         ]
         weiyuejin_eachitem = [[
-            round(i, 2)
+            round(i * (1 - 0.03), 2)
             for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
                                             '滞纳金'].tolist()
-        ][0] * (1 - 0.06)]
+        ][0]]
         shuie_eachitem = [[
-            round(i, 2)
+            round(i * 0.03, 2)
             for i in df_data_1_eachitem.loc[df_data_1_eachitem['户号'] == '合计',
                                             '滞纳金'].tolist()
-        ][0] * 0.06]
+        ][0]]
         if amount1_eachitem[0] < 0:  # 合计金额小于零，跳过，不需要记账。
             continue
         else:
@@ -1059,76 +1079,105 @@ if __name__ == "__main__":
     pass
     genExcel_chengqu_shuaka(
         excelpath_sheet15=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡\2021-10-13\竹苑-刷卡\竹苑-刷卡.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\竹苑-刷卡\竹苑-刷卡.xlsx',
         excelpath_sheet2=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
         excelpath_sheet18=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹\Robot_Files\刷卡汇总\2021-10-13\竹苑-刷卡\刷卡汇总.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新\Robot_Files\刷卡汇总\2021-10-13\竹苑-刷卡\刷卡汇总.xlsx',
         save_dir=r'.\pingzheng',
         type1='zhuyuan')
     # todo 可用于莲塘
+    genExcel_chengqu_shuaka(
+        excelpath_sheet15=
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\竹苑-刷卡\竹苑-刷卡.xlsx',
+        excelpath_sheet2=
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        excelpath_sheet18=
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新\Robot_Files\刷卡汇总\2021-10-13\竹苑-刷卡\刷卡汇总.xlsx',
+        save_dir=r'.\pingzheng',
+        type1='zhuyuan')
 
     genExcel_chengqu_saoma(
         excelpath_sheet16=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡\2021-10-13\竹苑-扫码\竹苑-扫码.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\竹苑-扫码\竹苑-扫码.xlsx',
         excelpath_sheet3=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
         excelpath_sheet19=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹\Robot_Files\扫码汇总\2021-10-13\竹苑-扫码\扫码汇总.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新\Robot_Files\扫码汇总\2021-10-13\竹苑-扫码\扫码汇总.xlsx',
         save_dir=r'.\pingzheng',
         type1='zhuyuan')
     # todo 可用于莲塘
+    genExcel_chengqu_saoma(
+        excelpath_sheet16=
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\竹苑-扫码\竹苑-扫码.xlsx',
+        excelpath_sheet3=
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        excelpath_sheet19=
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新\Robot_Files\扫码汇总\2021-10-13\竹苑-扫码\扫码汇总.xlsx',
+        save_dir=r'.\pingzheng',
+        type1='zhuyuan')
 
     genExcel_chengqu_xianjinshuifei(
         excelpath_sheet1=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
         save_dir=r'.\pingzheng',
         type1='zhuyuan')
     # todo 可用于莲塘
+    genExcel_chengqu_xianjinshuifei(
+        excelpath_sheet1=
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        save_dir=r'.\pingzheng',
+        type1='zhuyuan')
 
     genExcel_chengqu_yinhanghuazhang(
         excelspath_sheet28_of_dir=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\客服大厅\划帐情况汇总',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\客服大厅\划帐情况汇总',
         save_dir=r'.\pingzheng')
 
     genExcel_banfu_zhifubao(
         excelpath_sheet20=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
         save_dir=r'.\pingzheng')
 
     genExcel_dongfeng_zhifubao(
         excelpath_sheet20=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
         save_dir=r'.\pingzheng')
 
     genExcel_dongsheng_zhifubao(
         excelpath_sheet20=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
         save_dir=r'.\pingzheng')
 
     genExcel_guzhen_zhifubao(
         excelpath_sheet20=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
         save_dir=r'.\pingzheng')
 
     genExcel_hannanqu_zhifubao(
         excelpath_sheet20=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_合并.xlsx',
         save_dir=r'.\pingzheng')
+    # todo 用合并表---> '城区/南区/五桂山/沙溪'
 
     genExcel_sanxiang_zhifubao(
         excelpath_sheet20=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
         save_dir=r'.\pingzheng')
 
     genExcel_shenwan_zhifubao(
         excelpath_sheet20=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
         save_dir=r'.\pingzheng')
 
     genExcel_chengqu_check(
         excelpath_sheet5=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-13\竹苑\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\竹苑\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
         save_dir=r'.\pingzheng',
         type1='zhuyuan')
     # todo 可用于莲塘
+    genExcel_chengqu_check(
+        excelpath_sheet5=
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\竹苑\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
+        save_dir=r'.\pingzheng',
+        type1='zhuyuan')
