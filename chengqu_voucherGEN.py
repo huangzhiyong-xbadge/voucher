@@ -1077,107 +1077,108 @@ def genExcel_chengqu_check(excelpath_sheet5, save_dir, type1):
 
 if __name__ == "__main__":
     pass
+    # pingzheng_20211101 这里的文件夹没有自己生成，需要 uibot 中创建并指定
     genExcel_chengqu_shuaka(
         excelpath_sheet15=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\竹苑-刷卡\竹苑-刷卡.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\UnionPay\2021-11-01\竹苑-刷卡\竹苑-刷卡.xlsx',
         excelpath_sheet2=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
         excelpath_sheet18=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新\Robot_Files\刷卡汇总\2021-10-13\竹苑-刷卡\刷卡汇总.xlsx',
-        save_dir=r'.\pingzheng',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\刷卡汇总\2021-11-01\竹苑-刷卡\刷卡汇总.xlsx',
+        save_dir=r'.\pingzheng_20211101',
         type1='zhuyuan')
     # todo 可用于莲塘
     genExcel_chengqu_shuaka(
         excelpath_sheet15=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\莲塘-刷卡\莲塘-刷卡.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\UnionPay\2021-11-01\莲塘-刷卡\莲塘-刷卡.xlsx',
         excelpath_sheet2=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\莲塘\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\莲塘\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
         excelpath_sheet18=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新\Robot_Files\刷卡汇总\2021-10-13\莲塘-刷卡\刷卡汇总.xlsx',
-        save_dir=r'.\pingzheng',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\刷卡汇总\2021-11-01\莲塘-刷卡\刷卡汇总.xlsx',
+        save_dir=r'.\pingzheng_20211101',
         type1='liantang')
 
     genExcel_chengqu_saoma(
         excelpath_sheet16=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\竹苑-扫码\竹苑-扫码.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\UnionPay\2021-11-01\竹苑-扫码\竹苑-扫码.xlsx',
         excelpath_sheet3=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
         excelpath_sheet19=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新\Robot_Files\扫码汇总\2021-10-13\竹苑-扫码\扫码汇总.xlsx',
-        save_dir=r'.\pingzheng',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\扫码汇总\2021-11-01\竹苑-扫码\扫码汇总.xlsx',
+        save_dir=r'.\pingzheng_20211101',
         type1='zhuyuan')
     # todo 可用于莲塘
     genExcel_chengqu_saoma(
         excelpath_sheet16=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\莲塘-扫码\莲塘-扫码.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\UnionPay\2021-11-01\莲塘-扫码\莲塘-扫码.xlsx',
         excelpath_sheet3=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\莲塘\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\莲塘\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
         excelpath_sheet19=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新\Robot_Files\扫码汇总\2021-10-13\莲塘-扫码\扫码汇总.xlsx',
-        save_dir=r'.\pingzheng',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\扫码汇总\2021-11-01\莲塘-扫码\扫码汇总.xlsx',
+        save_dir=r'.\pingzheng_20211101',
         type1='liantang')
 
     genExcel_chengqu_xianjinshuifei(
         excelpath_sheet1=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
-        save_dir=r'.\pingzheng',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\竹苑\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        save_dir=r'.\pingzheng_20211101',
         type1='zhuyuan')
     # todo 可用于莲塘
     genExcel_chengqu_xianjinshuifei(
         excelpath_sheet1=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\莲塘\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
-        save_dir=r'.\pingzheng',
-        type1='zhuyuan')
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\莲塘\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        save_dir=r'.\pingzheng_20211101',
+        type1='liantang')
 
     genExcel_chengqu_yinhanghuazhang(
         excelspath_sheet28_of_dir=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\客服大厅\划帐情况汇总',
-        save_dir=r'.\pingzheng')
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\客服大厅\划帐情况汇总',
+        save_dir=r'.\pingzheng_20211101')
 
     genExcel_banfu_zhifubao(
         excelpath_sheet20=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
-        save_dir=r'.\pingzheng')
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
+        save_dir=r'.\pingzheng_20211101')
 
     genExcel_dongfeng_zhifubao(
         excelpath_sheet20=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
-        save_dir=r'.\pingzheng')
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
+        save_dir=r'.\pingzheng_20211101')
 
     genExcel_dongsheng_zhifubao(
         excelpath_sheet20=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
-        save_dir=r'.\pingzheng')
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
+        save_dir=r'.\pingzheng_20211101')
 
     genExcel_guzhen_zhifubao(
         excelpath_sheet20=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
-        save_dir=r'.\pingzheng')
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
+        save_dir=r'.\pingzheng_20211101')
 
     genExcel_hannanqu_zhifubao(
         excelpath_sheet20=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_合并.xlsx',
-        save_dir=r'.\pingzheng')
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_合并.xlsx',
+        save_dir=r'.\pingzheng_20211101')
     # todo 用合并表---> '城区/南区/五桂山/沙溪'
 
     genExcel_sanxiang_zhifubao(
         excelpath_sheet20=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
-        save_dir=r'.\pingzheng')
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
+        save_dir=r'.\pingzheng_20211101')
 
     genExcel_shenwan_zhifubao(
         excelpath_sheet20=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
-        save_dir=r'.\pingzheng')
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
+        save_dir=r'.\pingzheng_20211101')
 
     genExcel_chengqu_check(
         excelpath_sheet5=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\竹苑\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
-        save_dir=r'.\pingzheng',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\竹苑\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
+        save_dir=r'.\pingzheng_20211101',
         type1='zhuyuan')
     # todo 可用于莲塘
     genExcel_chengqu_check(
         excelpath_sheet5=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\莲塘\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
-        save_dir=r'.\pingzheng',
-        type1='zhuyuan')
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\莲塘\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
+        save_dir=r'.\pingzheng_20211101',
+        type1='liantang')

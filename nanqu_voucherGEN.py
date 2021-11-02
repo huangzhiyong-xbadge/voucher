@@ -483,23 +483,23 @@ def genExcel_nanqu_check(excelpath_sheet5, save_dir):
 if __name__ == "__main__":
     genExcel_nanqu_shuaka(
         excelpath_sheet15=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\南区-刷卡\南区-刷卡.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\UnionPay\2021-11-01\南区-刷卡\南区-刷卡.xlsx',
         excelpath_sheet2=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\南区\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\南区\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
         excelpath_sheet18=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新\Robot_Files\刷卡汇总\2021-10-13\南区-刷卡\刷卡汇总.xlsx',
-        save_dir=r'.\pingzheng',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\刷卡汇总\2021-11-01\南区-刷卡\刷卡汇总.xlsx',
+        save_dir=r'.\pingzheng_20211101',
     )
     genExcel_nanqu_xianjin(
         excelpath_sheet1=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\南区\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
-        save_dir=r'.\pingzheng',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\南区\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        save_dir=r'.\pingzheng_20211101',
     )
     genExcel_nanqu_yinhanghuazhang(
         excelspath_sheet28_of_dir=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\南区\划帐情况汇总',
-        save_dir=r'.\pingzheng')
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\南区\划帐情况汇总',
+        save_dir=r'.\pingzheng_20211101')
     genExcel_nanqu_check(
         excelpath_sheet5=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\南区\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
-        save_dir=r'.\pingzheng')
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\南区\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
+        save_dir=r'.\pingzheng_20211101')

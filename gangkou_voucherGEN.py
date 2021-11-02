@@ -694,36 +694,36 @@ def genExcel_gangkou_check(excelpath_sheet5, save_dir):
 if __name__ == "__main__":
     genExcel_gangkou_shuaka(
         excelpath_sheet15=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口-新\新建文件夹\港口-刷卡\港口-刷卡.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\UnionPay\2021-11-01\港口-刷卡\港口-刷卡.xlsx',
         excelpath_sheet2=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\港口\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\港口\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
         excelpath_sheet18=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口-新\港口-刷卡\刷卡汇总.xlsx',
-        save_dir=r'.\pingzheng',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\刷卡汇总\2021-11-01\港口-刷卡\刷卡汇总.xlsx',
+        save_dir=r'.\pingzheng_20211101',
     )
     genExcel_gangkou_saoma(
         excelpath_sheet16=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口-新\新建文件夹\港口-扫码\港口-扫码.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\UnionPay\2021-11-01\港口-扫码\港口-扫码.xlsx',
         excelpath_sheet3=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\港口\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\港口\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
         excelpath_sheet19=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口-新\港口-扫码\扫码汇总.xlsx',
-        save_dir=r'.\pingzheng',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\扫码汇总\2021-11-01\港口-扫码\扫码汇总.xlsx',
+        save_dir=r'.\pingzheng_20211101',
     )
     genExcel_gangkou_xianjin(
         excelpath_sheet1=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\港口\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
-        save_dir=r'.\pingzheng',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\港口\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        save_dir=r'.\pingzheng_20211101',
     )
     genExcel_gangkou_yinhanghuazhang(
         excelspath_sheet28_of_dir=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\港口-新\划帐情况汇总',
-        save_dir=r'.\pingzheng')
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\港口\划帐情况汇总',
+        save_dir=r'.\pingzheng_20211101')
     genExcel_gangkou_zhifubao(
         excelpath_sheet20=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
-        save_dir=r'.\pingzheng')
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\支付宝\远程销账汇总_支付宝美宜佳\db_远程销账汇总_支付宝_不合并.xlsx',
+        save_dir=r'.\pingzheng_20211101')
     genExcel_gangkou_check(
         excelpath_sheet5=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\港口\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
-        save_dir=r'.\pingzheng',)
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\港口\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
+        save_dir=r'.\pingzheng_20211101',)

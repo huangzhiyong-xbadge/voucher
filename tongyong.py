@@ -64,6 +64,6 @@ def forItemNo(datadir, exportDir):
 
 
 if __name__ == "__main__":
-    forVoucherNo(datadir=r'.\pingzheng', exportDir=r'.\pingzheng_1')
-    forItemNo(datadir=r'.\pingzheng_1', exportDir=r'.\pingzheng_2')
+    forVoucherNo(datadir=r'.\pingzheng_20211101', exportDir=r'.\pingzheng_20211101_1')
+    forItemNo(datadir=r'.\pingzheng_20211101_1', exportDir=r'.\pingzheng_20211101_2')
 

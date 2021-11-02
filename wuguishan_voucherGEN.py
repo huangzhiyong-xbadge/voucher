@@ -476,24 +476,24 @@ def genExcel_wuguishan_check(excelpath_sheet5, save_dir):
 if __name__ == "__main__":
     genExcel_wuguishan_shuaka_saoma(
         excelpath_sheet15=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\五桂山-刷卡\五桂山-刷卡.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\UnionPay\2021-11-01\五桂山\五桂山-刷卡.xlsx',
         excelpath_sheet16=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\扫码-刷卡-新\2021-10-13\五桂山-扫码\五桂山-扫码.xlsx',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\UnionPay\2021-11-01\五桂山\五桂山-扫码.xlsx',
         excelpath_sheet2=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\五桂山\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
-        save_dir=r'.\pingzheng',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\五桂山\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        save_dir=r'.\pingzheng_20211101',
     )
     genExcel_wuguishan_xianjin(
         excelpath_sheet1=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\五桂山\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
-        save_dir=r'.\pingzheng',
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\五桂山\营业厅收费汇总报表\db_营业厅收费汇总报表.xlsx',
+        save_dir=r'.\pingzheng_20211101',
     )
     # todo 数据为空 待验证  genExcel_wuguishan_xianjin
     genExcel_wuguishan_yinhanghuazhang(
         excelspath_sheet28_of_dir=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\五桂山\划帐情况汇总',
-        save_dir=r'.\pingzheng')
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\五桂山\划帐情况汇总',
+        save_dir=r'.\pingzheng_20211101')
     genExcel_wuguishan_check(
         excelpath_sheet5=
-        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\2021-10-26-新\五桂山\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
-        save_dir=r'.\pingzheng')
+        r'F:\zhongshan_shuiwu_RPA\20211013\voucher\data\新建文件夹-新新\2021-11-01\五桂山\营业厅收费日报_支票\db_营业厅收费日报_支票.xlsx',
+        save_dir=r'.\pingzheng_20211101')
